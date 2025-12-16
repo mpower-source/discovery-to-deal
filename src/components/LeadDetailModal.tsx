@@ -2,6 +2,7 @@ import { X, Mail, Phone, ExternalLink, Copy, Rocket, CheckCircle, FileText, Buil
 import { Lead } from '../lib/supabase';
 import { ProgressJourney } from './ProgressJourney';
 import { StatusBadge } from './StatusBadge';
+import { EditableSection } from './EditableSection';
 import { useEffect, useState } from 'react';
 
 interface LeadDetailModalProps {
@@ -97,92 +98,32 @@ export function LeadDetailModal({ lead, onClose, onTriggerWorkflow, loadingState
 
         <div className="flex-1 flex overflow-hidden">
           <div className="flex-1 lg:w-[60%] overflow-y-auto px-6 py-6 space-y-6 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
-            <section className="bg-gray-800/40 rounded-xl p-5 border border-gray-700/40">
-              <div className="flex items-center gap-2 mb-4">
-                <User className="w-5 h-5 text-cyan-400" />
-                <h3 className="text-lg font-semibold text-white">Contact Information</h3>
-              </div>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <a
-                    href={`mailto:${currentLead.contact_email}`}
-                    className="flex items-center gap-2 text-gray-300 hover:text-cyan-400 transition-colors"
-                  >
-                    <Mail className="w-4 h-4" />
-                    <span>{currentLead.contact_email}</span>
-                  </a>
-                  <button
-                    onClick={() => copyToClipboard(currentLead.contact_email, 'Email')}
-                    className="p-1.5 hover:bg-gray-700/50 rounded text-gray-400 hover:text-cyan-400 transition-colors"
-                    title="Copy email"
-                  >
-                    <Copy className="w-4 h-4" />
-                  </button>
-                </div>
-                <div className="flex items-center justify-between">
-                  <a
-                    href={`tel:${currentLead.contact_phone}`}
-                    className="flex items-center gap-2 text-gray-300 hover:text-cyan-400 transition-colors"
-                  >
-                    <Phone className="w-4 h-4" />
-                    <span>{currentLead.contact_phone}</span>
-                  </a>
-                  <button
-                    onClick={() => copyToClipboard(currentLead.contact_phone, 'Phone')}
-                    className="p-1.5 hover:bg-gray-700/50 rounded text-gray-400 hover:text-cyan-400 transition-colors"
-                    title="Copy phone"
-                  >
-                    <Copy className="w-4 h-4" />
-                  </button>
-                </div>
-                {currentLead.contact_linkedin && (
-                  <a
-                    href={currentLead.contact_linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-gray-300 hover:text-cyan-400 transition-colors"
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                    <span>LinkedIn Profile</span>
-                  </a>
-                )}
-              </div>
-            </section>
+            <EditableSection
+              lead={currentLead}
+              onLeadUpdate={handleLeadUpdate}
+              title="Contact Information"
+              icon={<User className="w-5 h-5" />}
+              accentColor="cyan"
+              fields={[
+                { key: 'contact_name', label: 'Name', type: 'text' },
+                { key: 'contact_email', label: 'Email', type: 'text' },
+                { key: 'contact_phone', label: 'Phone', type: 'text' },
+                { key: 'contact_linkedin', label: 'LinkedIn Profile', type: 'url' },
+              ]}
+            />
 
-            <section className="bg-gray-800/40 rounded-xl p-5 border border-gray-700/40">
-              <div className="flex items-center gap-2 mb-4">
-                <Building className="w-5 h-5 text-purple-400" />
-                <h3 className="text-lg font-semibold text-white">Company Details</h3>
-              </div>
-              <div className="space-y-3">
-                <div>
-                  <span className="text-sm text-gray-400">Company Name</span>
-                  <p className="text-white font-medium">{currentLead.company_name}</p>
-                </div>
-                {currentLead.company_website && (
-                  <a
-                    href={currentLead.company_website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-gray-300 hover:text-purple-400 transition-colors"
-                  >
-                    <Globe className="w-4 h-4" />
-                    <span>Company Website</span>
-                  </a>
-                )}
-                {currentLead.company_linkedin && (
-                  <a
-                    href={currentLead.company_linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-gray-300 hover:text-purple-400 transition-colors"
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                    <span>Company LinkedIn</span>
-                  </a>
-                )}
-              </div>
-            </section>
+            <EditableSection
+              lead={currentLead}
+              onLeadUpdate={handleLeadUpdate}
+              title="Company Details"
+              icon={<Building className="w-5 h-5" />}
+              accentColor="purple"
+              fields={[
+                { key: 'company_name', label: 'Company Name', type: 'text' },
+                { key: 'company_website', label: 'Company Website', type: 'url', placeholder: 'https://example.com' },
+                { key: 'company_linkedin', label: 'Company LinkedIn', type: 'url' },
+              ]}
+            />
 
             <section className="bg-gray-800/40 rounded-xl p-5 border border-gray-700/40">
               <div className="flex items-center gap-2 mb-4">
