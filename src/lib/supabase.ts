@@ -157,9 +157,11 @@ export async function uploadTranscriptFile(
     const timestamp = new Date().getTime();
     const fileName = `${leadId}/${timestamp}-transcript.txt`;
 
+    const cleanedBlob = new Blob([transcriptText], { type: 'text/plain' });
+
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from('dcf_transcript')
-      .upload(fileName, file, {
+      .upload(fileName, cleanedBlob, {
         contentType: 'text/plain',
         upsert: false,
       });
