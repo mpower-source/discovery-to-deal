@@ -324,8 +324,7 @@ export function ProgressJourney({ lead, onLeadUpdate }: ProgressJourneyProps) {
                       {currentLead.dc_call_transcript_url && (
                         <a
                           href={currentLead.dc_call_transcript_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          download
                           className="inline-flex items-center gap-1 px-3 py-1 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg text-xs font-medium transition-colors"
                         >
                           <FileText className="w-3 h-3" />
