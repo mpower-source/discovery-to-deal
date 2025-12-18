@@ -3,6 +3,7 @@ import { Lead } from '../lib/supabase';
 import { ProgressJourney } from './ProgressJourney';
 import { StatusBadge } from './StatusBadge';
 import { EditableSection } from './EditableSection';
+import { TranscriptEditor } from './TranscriptEditor';
 import { useEffect, useState } from 'react';
 
 interface LeadDetailModalProps {
@@ -175,6 +176,8 @@ export function LeadDetailModal({ lead, onClose, onTriggerWorkflow, loadingState
                 </button>
               </div>
             </section>
+
+            <TranscriptEditor lead={currentLead} onLeadUpdate={handleLeadUpdate} />
 
             {currentLead.last_error && (
               <section className="bg-red-500/10 rounded-xl p-5 border border-red-500/30">
