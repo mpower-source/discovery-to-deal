@@ -74,6 +74,20 @@ export function TranscriptEditor({ lead, onLeadUpdate }: TranscriptEditorProps) 
     setIsEditing(false);
   };
 
+  const handleDownloadTranscript = () => {
+    if (!lead.dc_call_transcript) return;
+
+    const blob = new Blob([lead.dc_call_transcript], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `transcript-${lead.contact_name.replace(/\s+/g, '-')}-${new Date().toISOString().split('T')[0]}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   const hasTranscript = !!lead.dc_call_transcript;
 
   return (
@@ -157,17 +171,13 @@ export function TranscriptEditor({ lead, onLeadUpdate }: TranscriptEditorProps) 
         </div>
       ) : hasTranscript ? (
         <div className="space-y-3">
-          {lead.dc_call_transcript_url && (
-            <a
-              href={lead.dc_call_transcript_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded transition-colors text-sm"
-            >
-              <Download className="w-4 h-4" />
-              Download Original
-            </a>
-          )}
+          <button
+            onClick={handleDownloadTranscript}
+            className="inline-flex items-center gap-2 px-3 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded transition-colors text-sm"
+          >
+            <Download className="w-4 h-4" />
+            Download Transcript
+          </button>
           <div className="bg-gray-700/30 rounded-lg p-4 max-h-96 overflow-y-auto">
             <p className="text-gray-300 whitespace-pre-wrap font-mono text-sm leading-relaxed">
               {lead.dc_call_transcript}
