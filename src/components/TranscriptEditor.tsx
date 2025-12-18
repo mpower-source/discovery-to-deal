@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { supabase, Lead, uploadTranscriptFile } from '../lib/supabase';
+import { supabase, Lead, uploadTranscriptFile, cleanTranscriptText } from '../lib/supabase';
 import { Edit2, Check, X, FileText, Download } from 'lucide-react';
 
 interface TranscriptEditorProps {
@@ -14,7 +14,9 @@ export function TranscriptEditor({ lead, onLeadUpdate }: TranscriptEditorProps) 
   const [isUploading, setIsUploading] = useState(false);
 
   const handleSaveTranscript = async () => {
-    if (editedTranscript.trim() === lead.dc_call_transcript?.trim()) {
+    const cleanedTranscript = cleanTranscriptText(editedTranscript);
+
+    if (cleanedTranscript === lead.dc_call_transcript?.trim()) {
       setIsEditing(false);
       return;
     }
@@ -24,7 +26,7 @@ export function TranscriptEditor({ lead, onLeadUpdate }: TranscriptEditorProps) 
       const { data, error } = await supabase
         .from('dcf_leads')
         .update({
-          dc_call_transcript: editedTranscript || null,
+          dc_call_transcript: cleanedTranscript || null,
         })
         .eq('lead_id', lead.lead_id)
         .select()

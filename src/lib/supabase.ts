@@ -127,6 +127,14 @@ export function getProposalProgress(lead: Lead): { completed: number; total: num
   };
 }
 
+export function cleanTranscriptText(text: string): string {
+  return text
+    .replace(/\r\n/g, '\n')
+    .replace(/\r/g, '\n')
+    .replace(/[^\x20-\x7E\n\t]/g, '')
+    .trim();
+}
+
 export async function uploadTranscriptFile(
   leadId: string,
   file: File
@@ -140,7 +148,8 @@ export async function uploadTranscriptFile(
       throw new Error('File size must be less than 10MB');
     }
 
-    const transcriptText = await file.text();
+    const rawText = await file.text();
+    const transcriptText = cleanTranscriptText(rawText);
     const timestamp = new Date().getTime();
     const fileName = `${leadId}/${timestamp}-transcript.txt`;
 
