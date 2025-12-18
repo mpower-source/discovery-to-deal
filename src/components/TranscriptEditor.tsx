@@ -79,7 +79,8 @@ export function TranscriptEditor({ lead, onLeadUpdate }: TranscriptEditorProps) 
   const handleDownloadTranscript = () => {
     if (!lead.dc_call_transcript) return;
 
-    const blob = new Blob([lead.dc_call_transcript], { type: 'text/plain' });
+    const cleanedText = cleanTranscriptText(lead.dc_call_transcript);
+    const blob = new Blob([cleanedText], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -182,7 +183,7 @@ export function TranscriptEditor({ lead, onLeadUpdate }: TranscriptEditorProps) 
           </button>
           <div className="bg-gray-700/30 rounded-lg p-4 max-h-96 overflow-y-auto">
             <p className="text-gray-300 whitespace-pre-wrap font-mono text-sm leading-relaxed">
-              {lead.dc_call_transcript}
+              {cleanTranscriptText(lead.dc_call_transcript || '')}
             </p>
           </div>
         </div>
