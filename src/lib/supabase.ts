@@ -131,6 +131,10 @@ export function cleanTranscriptText(text: string): string {
   return text
     .replace(/\r\n/g, '\n')
     .replace(/\r/g, '\n')
+    .replace(/[\u2018\u2019]/g, "'")
+    .replace(/[\u201C\u201D]/g, '"')
+    .replace(/\u2026/g, '...')
+    .replace(/[\u2013\u2014]/g, '-')
     .replace(/[^\x20-\x7E\n\t]/g, '')
     .trim();
 }
