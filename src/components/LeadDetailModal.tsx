@@ -123,7 +123,7 @@ export function LeadDetailModal({ lead, onClose, onTriggerWorkflow, loadingState
                 { key: 'company_name', label: 'Company Name', type: 'text' },
                 { key: 'company_website', label: 'Company Website', type: 'url', placeholder: 'https://example.com' },
                 { key: 'company_linkedin', label: 'Company LinkedIn', type: 'url' },
-                { key: 'rocket_mvp_url', label: 'Rocket MVP', type: 'url', placeholder: 'https://rocket-mvp.com/...' },
+                { key: 'rocket_mvp_url', label: 'MVP Platform', type: 'url', placeholder: 'https://rocket-mvp.com/...' },
               ]}
             />
 
