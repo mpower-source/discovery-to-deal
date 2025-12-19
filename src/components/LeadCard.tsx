@@ -109,6 +109,17 @@ export function LeadCard({ lead, onTriggerWorkflow, loadingStates, onLeadClick }
               Website
             </a>
           )}
+          {lead.rocket_mvp_url && (
+            <a
+              href={lead.rocket_mvp_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm text-gray-300 hover:text-cyan-400 transition-colors"
+            >
+              <ExternalLink className="w-4 h-4" />
+              MVP
+            </a>
+          )}
         </div>
 
         <div className="mb-4 pt-4 border-t border-gray-700/50">
