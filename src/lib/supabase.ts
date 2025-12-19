@@ -20,6 +20,7 @@ export interface Lead {
   company_name: string;
   company_linkedin: string | null;
   company_website: string | null;
+  rocket_mvp_url: string | null;
   contact_linkedin_raw: any;
   company_linkedin_raw: any;
   company_website_text: string | null;
